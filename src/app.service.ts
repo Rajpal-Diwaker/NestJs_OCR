@@ -4,6 +4,7 @@ import { OcrService } from './ocr/ocr.service';
 @Injectable()
 export class AppService {
   constructor(private readonly ocrService: OcrService) {}
+
   getHello(): string {
     return 'Hello World!';
   }
@@ -27,28 +28,36 @@ export class AppService {
     );
   }
 
+  validateItem(value: string, items) {
+    if (value.match(this.regexWithLetter)) {
+      items.push({
+        item: value.split(this.regexWithLetter)[0].trim(),
+        value: this.parseLocaleNumber(
+          value.match(this.regexWithLetter)[0].split(' ')[0],
+          'de',
+        ),
+      });
+    }
+  }
+
+  validateAmountPaid(value, totalAmountPaid) {
+    if (value.indexOf(this.TOTAL_AMOUNT_PAID) > -1) {
+      totalAmountPaid.push({
+        item: this.TOTAL_AMOUNT_PAID,
+        value: this.parseLocaleNumber(
+          value.match(this.regexForAnyCurrency)[0],
+          'it',
+        ),
+      });
+    }
+  }
+
   parseReceipt(arrayText: Array<string>) {
     const itemsFound = [];
     const totalAmountPaid = [];
     for (const value of arrayText) {
-      if (value.match(this.regexWithLetter)) {
-        itemsFound.push({
-          item: value.split(this.regexWithLetter)[0].trim(),
-          value: this.parseLocaleNumber(
-            value.match(this.regexWithLetter)[0].split(' ')[0],
-            'de',
-          ),
-        });
-      }
-      if (value.indexOf(this.TOTAL_AMOUNT_PAID) > -1) {
-        totalAmountPaid.push({
-          item: this.TOTAL_AMOUNT_PAID,
-          value: this.parseLocaleNumber(
-            value.match(this.regexForAnyCurrency)[0],
-            'it',
-          ),
-        });
-      }
+      this.validateItem(value, itemsFound);
+      this.validateAmountPaid(value, totalAmountPaid);
     }
 
     let totalItemsSum = 0;

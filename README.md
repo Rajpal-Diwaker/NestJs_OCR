@@ -1,73 +1,35 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## File upload and OCR sample
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This project was built to support my article in medium:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+- [File upload and image parsing with NestJS and Tesseract](https://makinhs.medium.com/file-upload-and-image-parsing-with-nestjs-and-tesseract-cc74355a21ce)
 
-## Description
+To test the project just run:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+```
+npm install
 ```
 
-## Running the app
+then:
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```
+npm start
 ```
 
-## Test
+You can do a post with a curl or Postman and using the random_rceipt.png in the root of this project:
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+curl --location --request POST 'http://localhost:3000/upload' \
+--form 'file=@"/FULL_PATH_TO_YOUR_PROJECT/random_receipt.png"'
 ```
 
-## Support
+remember to replace FULL_PATH_TO_YOUR_PROJECT to your path in case of using curl.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+expected output:
 
-## Stay in touch
+```
+{"totalItemsSum":19.78,"totalAmountPaid":[{"item":"IMPORTO PAGATO","value":19.78}],"itemsFound":[{"item":"PEPERONE GIALLO#*","value":1.83},{"item":"SACCHETTO DI CONFEZ.","value":0.02},{"item":"POMODORO RAMATO*","value":1.05},{"item":"SACCHETTO DI CONFEZ.","value":0.02},{"item":"CIPOLLE BIANCHE SFUS","value":0.7},{"item":"SACCHETTO DI CONFEZ.","value":0.02},{"item":"CETRIOLI SFUSI*","value":1.8},{"item":"SACCHETTO DI CONFEZ.","value":0.02},{"item":"INS .BRASILIANA","value":0.97},{"item":"ARANCE NAVEL RETE KG","value":2.55},{"item":"CUOR DI LINO MB GR","value":2},{"item":"1P PROVOLA AFFUMICAT","value":1.09},{"item":"LATTE CALCIUM PLUS L","value":1.35},{"item":"BIR.MORETTI BAFFONE","value":4.36},{"item":"BIRRA BUDWEISER VAP","value":2}]}% 
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
 
-## License
-
-Nest is [MIT licensed](LICENSE).
+Cheers,
