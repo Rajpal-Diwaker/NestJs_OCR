@@ -1,22 +1,12 @@
+// ocr.service.ts
 import { Injectable } from '@nestjs/common';
-import * as tesseract from 'node-tesseract-ocr';
+import { recognize } from 'tesseract.js';
 
 @Injectable()
 export class OcrService {
-  config = {
-    lang: 'eng',
-    oem: 1,
-    psm: 4,
-  };
-
-  parseImage(imageBuffer) {
-    return tesseract
-      .recognize(imageBuffer, this.config)
-      .then((text) => {
-        return text.split('\n');
-      })
-      .catch((error) => {
-        throw new Error(error.message);
-      });
+  async recognizeText(imagePath: string): Promise<string> {
+    const result = await recognize(imagePath, 'eng');
+    console.log('result', result);
+    return result.data.text;
   }
 }
